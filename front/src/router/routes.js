@@ -3,9 +3,14 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') ,meta: { requiresAuth: true } },
-      { path: '/usuarios', component: () => import('pages/usuarios/Usuarios.vue'), meta: { requiresAuth: true } },
-      { path: '/cursos', component: () => import('pages/cursos/Cursos.vue'), meta: { requiresAuth: true } },
+      {path: '', component: () => import('pages/IndexPage.vue'), meta: {requiresAuth: true}},
+      {path: '/usuarios', component: () => import('pages/usuarios/Usuarios.vue'), meta: {requiresAuth: true}},
+      {path: '/cursos', component: () => import('pages/cursos/Cursos.vue'), meta: {requiresAuth: true}},
+      {
+        path: '/estudiantes',
+        component: () => import('pages/estudiantes/Estudiantes.vue'),
+        meta: {requiresAuth: true}
+      }
     ]
   },
   {
