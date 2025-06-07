@@ -15,6 +15,12 @@ const routes = [
         path: '/docentes',
         component: () => import('pages/docentes/Docentes.vue'),
         meta: { requiresAuth: true }
+      },
+      // asiganciones
+      {
+        path: '/asignaciones',
+        component: () => import('pages/asignaciones/Asignaciones.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   },
