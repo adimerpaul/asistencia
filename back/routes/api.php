@@ -18,4 +18,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy']);
     Route::put('/updatePassword/{user}', [App\Http\Controllers\UserController::class, 'updatePassword']);
     Route::post('/{user}/avatar', [App\Http\Controllers\UserController::class, 'updateAvatar']);
+
+    Route::get('/cursos', [App\Http\Controllers\CursoController::class, 'index']);
+    Route::post('/cursos', [App\Http\Controllers\CursoController::class, 'store']);
+    Route::put('/cursos/{curso}', [App\Http\Controllers\CursoController::class, 'update']);
+    Route::delete('/cursos/{curso}', [App\Http\Controllers\CursoController::class, 'destroy']);
+
 });
