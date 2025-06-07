@@ -25,12 +25,12 @@
                 </q-item-section>
                 <q-item-section>Eliminar</q-item-section>
               </q-item>
-              <q-item clickable @click="estudianteRoute(props.row.id)" v-close-popup>
-                <q-item-section avatar>
-                  <q-icon name="people" size="md" />
-                </q-item-section>
-                <q-item-section>Estudiantes</q-item-section>
-              </q-item>
+<!--              <q-item clickable @click="estudianteRoute(props.row.id)" v-close-popup>-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-icon name="people" size="md" />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>Estudiantes</q-item-section>-->
+<!--              </q-item>-->
             </q-list>
           </q-btn-dropdown>
         </q-td>
@@ -109,7 +109,7 @@ export default {
         { name: 'nombre', label: 'Nombre', field: 'nombre', align: 'left' },
         { name: 'descripcion', label: 'Descripción', field: 'descripcion', align: 'left' },
         { name: 'icono', label: 'Icono', field: 'icono', align: 'center' },
-
+        { name: 'formacion', label: 'Formación', field: 'formacion', align: 'left' },
       ],
       iconos:[
         { label: 'Quimica', icon: 'fa-solid fa-flask-vial' },
@@ -175,9 +175,9 @@ export default {
         this.loading = false;
       });
     },
-    estudianteRoute(id) {
-      this.$router.push(`/estudiantes/${id}`);
-    },
+    // estudianteRoute(id) {
+    //   this.$router.push(`/estudiantes/${id}`);
+    // },
     eliminarCurso(id) {
       this.$alert.dialog('¿Desea eliminar este curso?').onOk(() => {
         this.loading = true;
