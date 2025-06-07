@@ -10,6 +10,11 @@ const routes = [
         path: '/estudiantes',
         component: () => import('pages/estudiantes/Estudiantes.vue'),
         meta: {requiresAuth: true}
+      },
+      {
+        path: '/docentes',
+        component: () => import('pages/docentes/Docentes.vue'),
+        meta: { requiresAuth: true }
       }
     ]
   },
