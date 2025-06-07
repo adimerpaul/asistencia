@@ -24,4 +24,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/cursos/{curso}', [App\Http\Controllers\CursoController::class, 'update']);
     Route::delete('/cursos/{curso}', [App\Http\Controllers\CursoController::class, 'destroy']);
 
+    Route::get('/estudiantes', [App\Http\Controllers\EstudianteController::class, 'index']);
+    Route::post('/estudiantes', [App\Http\Controllers\EstudianteController::class, 'store']);
+    Route::put('/estudiantes/{estudiante}', [App\Http\Controllers\EstudianteController::class, 'update']);
+    Route::delete('/estudiantes/{estudiante}', [App\Http\Controllers\EstudianteController::class, 'destroy']);
 });

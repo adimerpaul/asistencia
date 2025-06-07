@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Curso;
+use App\Models\Estudiante;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -12,14 +13,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    public function run(): void
-    {
-        // User::factory(10)->create();
-
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
+    public function run(): void{
         $user = User::create([
             'name' => 'Romina Astete',
             'username' => 'admin',
@@ -28,79 +22,6 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('admin123Admin'),
             'role' => 'Administrador',
         ]);
-
-//        1ER AÑO DE FORMACIÓN:	3ER AÑO DE FORMACIÓN:
-//Lengua Extranjera Inglés:	Técnico Tecnológico:
-//• Básico	• Contabilidad
-//• Intermedio	• Gastronomía
-//• Avanzado	• Ofimática
-//	• Plataformas virtuales
-//	• Herramientas digitales
-//	• Dibujo técnico
-//	• Diseño gráfico
-//	• Instalaciones eléctricas
-//	• Plomería
-//	• Reparación de instrumentos musicales
-//	• Soldadura
-//	• Cerrajería
-//	• Otros a requerimiento
-//2DO AÑO DE FORMACIÓN:	4TO AÑO DE FORMACIÓN:
-//Artístico - Cultural:	Temáticas Emergentes en la Especialidad:
-//• Danzas nacionales	• Parvulario
-//• Danzas internacionales	• Cosmovisiones y Espiritualidades
-//• Interpretación de instrumentos musicales	• Lenguaje
-//• Teatro	• Oratoria y Declamación
-//• Canto, poesía	• Lectura comprensiva
-//• Dibujo artístico	• Técnicas de estudio
-//• Pintura	• Redacción académica y administrativa
-//• Música	• Razonamiento lógico matemático
-//• Literatura	• Taller
-//• Escultura	• Otros a requerimiento
-//• Artesanía
-//• Textiles y confecciones
-//• Alfarería
-//• Otros a requerimiento
-//        class Curso extends Model{
-//            use SoftDeletes;
-//            protected $fillable = [
-//                'nombre',
-//                'descripcion',
-//                'formacion',
-//                'tipo',
-//                'icono',
-//            ];
-//            protected $hidden = [
-//                'deleted_at',
-//                'created_at',
-//                'updated_at',
-//            ];
-//        }
-//        iconos:[
-//        { label: 'Quimica', icon: 'fa-solid fa-flask-vial' },
-//        { label: 'Matemáticas', icon: 'fa-solid fa-book-open-reader' },
-//        { label: 'Física', icon: 'fa-solid fa-chalkboard-user' },
-//        { label: 'Biología', icon: 'fa-solid fa-graduation-cap' },
-//        { label: 'Programación', icon: 'fa-solid fa-laptop-code' },
-//        { label: 'Robótica', icon: 'fa-solid fa-robot' },
-//        { label: 'Redes', icon: 'fa-solid fa-network-wired' },
-//        { label: 'Base de Datos', icon: 'fa-solid fa-database' },
-//        { label: 'Lenguajes', icon: 'fa-solid fa-language' },
-//        { label: 'Historia', icon: 'fa-solid fa-landmark' },
-//        { label: 'Geografía', icon: 'fa-solid fa-globe' },
-//        { label: 'Arte', icon: 'fa-solid fa-paintbrush' },
-//        { label: 'Música', icon: 'fa-solid fa-music' },
-//        { label: 'Educación Física', icon: 'fa-solid fa-running' },
-//        { label: 'Literatura', icon: 'fa-solid fa-book' },
-//        { label: 'Ciencias Sociales', icon: 'fa-solid fa-users' },
-//        { label: 'Ciencias Naturales', icon: 'fa-solid fa-leaf' },
-//        { label: 'Computación', icon: 'fa-solid fa-desktop' },
-//        { label: 'Aymara', icon: 'fa-solid fa-comments' },
-//        { label: 'Lenguaje', icon: 'fa-solid fa-comment-dots' },
-//        { label: 'Quechua', icon: 'fa-solid fa-comments' },
-//        { label: 'Música', icon: 'fa-solid fa-music' },
-//        { label: 'Educación Física', icon: 'fa-solid fa-running' },
-//        { label: 'Otros', icon: 'fa-solid fa-ellipsis' }
-//      ]
         $cursos = Curso::insert([
             [
                 'nombre' => 'Lengua Extrangera Ingles basico',
@@ -387,6 +308,67 @@ class DatabaseSeeder extends Seeder
 //                'tipo' => 'Otros',
 //                'icono' => 'fa-solid fa-ellipsis',
 //            ],
+        ]);
+
+//        APAZA REYNAGA VICTOR HUGO	7426707
+//CABRERA AJHUACHO SERGIO ALEJANDRO	7454341
+//CACERES HUARACHI NIDIA STEPHANI	7322548
+//CHAVEZ MOLINA JOSUE	7410236
+//CHOQUE MAMANI MAX CARLOS	7350489
+//CHUQUICHAMBI VILLCA LISMER	7371416
+//COLQUE FERNANDEZ WILSON	7367293
+//COLQUE VIRACA SERGIO RODRIGO	7362197
+//CONDORI MAMANI MEDARDO HIBER	7450306-1G
+//CORIA CRUZ WILSON FERNANDO	7988973
+//CORO CAMATA BRYAN WILBERT	8544056
+//GARCIA MIRANDA VICTOR	7388902
+//GOMEZ DELGADO JORGE LUIS	7423652
+//GUTIERREZ AQUINO MYRNA ISABEL	7351551
+//GUTIERREZ CANAZA ELIO OBED	5755727
+//HERRERA QUISPE EFRAIN ALEXANDER	13066778
+//HUARACHI ARCAYNE JAIME	7352845
+//HUARACHI LIA ARIEL	7319477
+//HUARACHI MELGAREJO RUBEN CARLOS	7293844
+//LIPIRI MEDINA ROGER	7360131
+//LIZARAZU FULGUERA JUAN GABRIEL	7325943
+//LLAVE TELLERIA CARLOS FREDDY	12613901
+//MACHACA CHAVEZ GUILLERMO	12997463
+//MAMANI NINA NOE SADRAC	7324021
+//MAMANI VILLCA MIGUEL	7368338
+//MEYERS FLORES CHRISTIAN RAFAEL	12772666
+//PEREZ MARCA ROMER	7323317
+//SALAMANCA HUANCA WILSON	7373616
+//VASQUEZ FLORES BRANDON LUIS	7278936
+        Estudiante::insert([
+            ['nombre' => 'APAZA REYNAGA VICTOR HUGO', 'ci' => '7426707'],
+            ['nombre' => 'CABRERA AJHUACHO SERGIO ALEJANDRO', 'ci' => '7454341'],
+            ['nombre' => 'CACERES HUARACHI NIDIA STEPHANI', 'ci' => '7322548'],
+            ['nombre' => 'CHAVEZ MOLINA JOSUE', 'ci' => '7410236'],
+            ['nombre' => 'CHOQUE MAMANI MAX CARLOS', 'ci' => '7350489'],
+            ['nombre' => 'CHUQUICHAMBI VILLCA LISMER', 'ci' => '7371416'],
+            ['nombre' => 'COLQUE FERNANDEZ WILSON', 'ci' => '7367293'],
+            ['nombre' => 'COLQUE VIRACA SERGIO RODRIGO', 'ci' => '7362197'],
+            ['nombre' => 'CONDORI MAMANI MEDARDO HIBER', 'ci' => '7450306-1G'],
+            ['nombre' => 'CORIA CRUZ WILSON FERNANDO', 'ci' => '7988973'],
+            ['nombre' => 'CORO CAMATA BRYAN WILBERT', 'ci' => '8544056'],
+            ['nombre' => 'GARCIA MIRANDA VICTOR', 'ci' => '7388902'],
+            ['nombre' => 'GOMEZ DELGADO JORGE LUIS', 'ci' => '7423652'],
+            ['nombre' => 'GUTIERREZ AQUINO MYRNA ISABEL', 'ci' => '7351551'],
+            ['nombre' => 'GUTIERREZ CANAZA ELIO OBED', 'ci' => '5755727'],
+            ['nombre' => 'HERRERA QUISPE EFRAIN ALEXANDER', 'ci' => '13066778'],
+            ['nombre' => 'HUARACHI ARCAYNE JAIME', 'ci' => '7352845'],
+            ['nombre' => 'HUARACHI LIA ARIEL', 'ci' => '7319477'],
+            ['nombre' => 'HUARACHI MELGAREJO RUBEN CARLOS', 'ci' => '7293844'],
+            ['nombre' => 'LIPIRI MEDINA ROGER', 'ci' => '7360131'],
+            ['nombre' => 'LIZARAZU FULGUERA JUAN GABRIEL', 'ci' => '7325943'],
+            ['nombre' => 'LLAVE TELLERIA CARLOS FREDDY', 'ci' => '12613901'],
+            ['nombre' => 'MACHACA CHAVEZ GUILLERMO', 'ci' => '12997463'],
+            ['nombre' => 'MAMANI NINA NOE SADRAC', 'ci' => '7324021'],
+            ['nombre' => 'MAMANI VILLCA MIGUEL', 'ci' => '7368338'],
+            ['nombre' => 'MEYERS FLORES CHRISTIAN RAFAEL', 'ci' => '12772666'],
+            ['nombre' => 'PEREZ MARCA ROMER', 'ci' => '7323317'],
+            ['nombre' => 'SALAMANCA HUANCA WILSON', 'ci' => '7373616'],
+            ['nombre' => 'VASQUEZ FLORES BRANDON LUIS', 'ci' => '7278936'],
         ]);
     }
 }
