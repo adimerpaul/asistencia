@@ -10,7 +10,7 @@ class DocenteController extends Controller
 {
     public function index()
     {
-        return Docente::orderBy('id', 'desc')->get();
+        return Docente::orderBy('nombre')->get();
     }
 
     public function store(Request $request)

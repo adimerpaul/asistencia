@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Asignacion;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\Estudiante;
@@ -347,5 +348,19 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'RICHARD WILLIAMS LOPEZ BAZAN', 'ci' => '12345678'],
             ['nombre' => 'GUALBERTO CHUNGARA ARANCIBIA', 'ci' => '87654321'],
         ]);
+
+//        1,1,37,2,"""PAMPA HULLAGAS""","TALLER ARTISTICA 1 ""LECTURA MUSICAL 1""",PRIMERA Y SEGUNDA,LIC RICHAR WILIAM LOPEZ BAZAN GUALBERTO CHUNGARA,"PERIMRO, SEGUNDO, y TERCERO",2022,,2025-06-07 06:12:48,2025-06-07 06:15:41
+        $asignacion = Asignacion::create([
+            'user_id' => $user->id,
+            'docente_id' => 1, // RICHARD WILLIAMS LOPEZ BAZAN
+            'curso_id' => 1, // Lengua Extrangera Ingles basico
+            'unidadEducativa' => 'PAMPA HULLAGAS',
+            'taller' => 'TALLER ARTISTICA 1 "LECTURA MUSICAL 1"',
+            'fases' => 'PRIMERA Y SEGUNDA',
+            'docentesEncargados' => 'LIC RICHAR WILIAM LOPEZ BAZAN GUALBERTO CHUNGARA',
+            'anioFormacion' => 'PERIMRO, SEGUNDO, y TERCERO',
+            'gestion' => '2022',
+        ]);
+
     }
 }
