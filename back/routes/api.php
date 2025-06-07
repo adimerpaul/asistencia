@@ -28,4 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/estudiantes', [App\Http\Controllers\EstudianteController::class, 'store']);
     Route::put('/estudiantes/{estudiante}', [App\Http\Controllers\EstudianteController::class, 'update']);
     Route::delete('/estudiantes/{estudiante}', [App\Http\Controllers\EstudianteController::class, 'destroy']);
+
+    Route::get('/docentes', [App\Http\Controllers\DocenteController::class, 'index']);
+    Route::post('/docentes', [App\Http\Controllers\DocenteController::class, 'store']);
+    Route::put('/docentes/{docente}', [App\Http\Controllers\DocenteController::class, 'update']);
+    Route::delete('/docentes/{docente}', [App\Http\Controllers\DocenteController::class, 'destroy']);
+
 });
