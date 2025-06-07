@@ -191,7 +191,7 @@ export default {
   methods: {
     loginSubmit() {
       this.loading = true;
-      this.$axios.post('users/login', {
+      this.$axios.post('login', {
         username: this.login.username,
         password: this.login.password,
       }).then(response => {

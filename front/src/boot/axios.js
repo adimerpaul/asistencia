@@ -57,7 +57,7 @@ export default boot(({ app, router }) => {
   const token = localStorage.getItem('tokenAsistencia')
   if (token) {
     app.config.globalProperties.$axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    app.config.globalProperties.$axios.get('users/me').then(response => {
+    app.config.globalProperties.$axios.get('me').then(response => {
       useCounterStore().isLogged = true
       useCounterStore().user = response.data
       localStorage.setItem('user', JSON.stringify(response.data))

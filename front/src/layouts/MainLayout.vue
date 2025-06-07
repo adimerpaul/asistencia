@@ -21,7 +21,7 @@
           <q-btn-dropdown flat unelevated no-caps dropdownIcon="expand_more">
             <template v-slot:label>
               <q-avatar rounded>
-                <q-img :src="`${$url}uploads/${$store.user.avatar}`" width="40px" height="40px" v-if="$store.user.avatar" />
+                <q-img :src="`${$url}/../images/${$store.user.avatar}`" width="40px" height="40px" v-if="$store.user.avatar" />
               </q-avatar>
               <div class="text-center" style="line-height: 1">
                 <div style="width: 100px; white-space: normal; overflow-wrap: break-word;">
