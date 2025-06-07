@@ -198,6 +198,7 @@ export default {
         // console.log(response.data);
         this.$store.isLogged = true;
         this.$store.user = response.data.user;
+        this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token;
         localStorage.setItem('tokenAsistencia', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
         this.$alert.success('Bienvenido ' + response.data.user.name);

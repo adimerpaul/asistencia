@@ -120,10 +120,21 @@ function toggleLeftDrawer() {
 function logout() {
   proxy.$alert.dialog('¿Desea salir del sistema?')
     .onOk(() => {
-      proxy.$store.isLogged = false
-      proxy.$store.user = {}
-      localStorage.removeItem('tokenAsistencia')
-      proxy.$router.push('/login')
+      // proxy.$store.isLogged = false
+      // proxy.$store.user = {}
+      // localStorage.removeItem('tokenAsistencia')
+      // proxy.$router.push('/login')
+      proxy.$axios.post('/logout')
+        .then(() => {
+          proxy.$store.isLogged = false
+          proxy.$store.user = {}
+          localStorage.removeItem('tokenAsistencia')
+          proxy.$router.push('/login')
+        })
+        .catch(error => {
+          console.error('Error al cerrar sesión:', error)
+          proxy.$alert.error('Error al cerrar sesión. Intente nuevamente.')
+        })
     })
 }
 

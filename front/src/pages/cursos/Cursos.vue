@@ -63,6 +63,7 @@
               use-input
               fill-input
               input-debounce="0"
+              :rules="[v => !!v || 'Requerido']"
             >
               <template v-slot:option="scope">
                 <q-item v-bind="scope.itemProps">
@@ -132,8 +133,6 @@ export default {
         { label: 'Aymara', icon: 'fa-solid fa-comments' },
         { label: 'Lenguaje', icon: 'fa-solid fa-comment-dots' },
         { label: 'Quechua', icon: 'fa-solid fa-comments' },
-        { label: 'Música', icon: 'fa-solid fa-music' },
-        { label: 'Educación Física', icon: 'fa-solid fa-running' },
         { label: 'Otros', icon: 'fa-solid fa-ellipsis' }
       ]
     };
@@ -162,6 +161,7 @@ export default {
     },
     guardarCurso() {
       this.loading = true;
+      this.curso.tipo = this.iconos.find(icon => icon.icon === this.curso.icono)?.label || 'Otros';
       const req = this.curso.id
         ? this.$axios.put(`cursos/${this.curso.id}`, this.curso)
         : this.$axios.post('cursos', this.curso);
