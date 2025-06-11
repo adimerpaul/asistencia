@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Asignacion;
+use App\Models\AsignacionEstudiante;
 use App\Models\Curso;
 use App\Models\Docente;
 use App\Models\Estudiante;
@@ -349,6 +350,10 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'GUALBERTO CHUNGARA ARANCIBIA', 'ci' => '87654321'],
         ]);
 
+        $user = User::where('id', 1)->first();
+        $user->docente_id = 1;
+        $user->save();
+
 //        1,1,37,2,"""PAMPA HULLAGAS""","TALLER ARTISTICA 1 ""LECTURA MUSICAL 1""",PRIMERA Y SEGUNDA,LIC RICHAR WILIAM LOPEZ BAZAN GUALBERTO CHUNGARA,"PERIMRO, SEGUNDO, y TERCERO",2022,,2025-06-07 06:12:48,2025-06-07 06:15:41
         $asignacion = Asignacion::create([
             'user_id' => $user->id,
@@ -362,5 +367,25 @@ class DatabaseSeeder extends Seeder
             'gestion' => '2022',
         ]);
 
+        $asignacionEstudiante = AsignacionEstudiante::create([
+            'asignacion_id' => $asignacion->id,
+            'estudiante_id' => 1, // APAZA REYNAGA VICTOR HUGO
+        ]);
+        $asignacionEstudiante = AsignacionEstudiante::create([
+            'asignacion_id' => $asignacion->id,
+            'estudiante_id' => 2, // CABRERA AJHUACHO SERGIO ALEJANDRO
+        ]);
+        $asignacionEstudiante = AsignacionEstudiante::create([
+            'asignacion_id' => $asignacion->id,
+            'estudiante_id' => 3, // CACERES HUARACHI NIDIA STEPHANI
+        ]);
+        $asignacionEstudiante = AsignacionEstudiante::create([
+            'asignacion_id' => $asignacion->id,
+            'estudiante_id' => 4, // CHAVEZ MOLINA JOSUE
+        ]);
+        $asignacionEstudiante = AsignacionEstudiante::create([
+            'asignacion_id' => $asignacion->id,
+            'estudiante_id' => 5, // CHOQUE MAMANI MAX CARLOS
+        ]);
     }
 }

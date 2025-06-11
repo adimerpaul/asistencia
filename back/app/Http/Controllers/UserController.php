@@ -62,12 +62,14 @@ class UserController extends Controller{
     }
     function index(){
         return User::where('id', '!=', 0)
+            ->with('docente')
             ->orderBy('id', 'desc')
             ->get();
     }
     function update(Request $request, $id){
         $user = User::find($id);
         $user->update($request->except('password'));
+        error_log('User' . json_encode($user));
         return $user;
     }
     function updatePassword(Request $request, $id){
