@@ -108,8 +108,8 @@ const linksList = [
   {title: 'Cursos', icon: 'school', link: '/cursos', can: ['Docente', 'Administrador']},
   {title: 'Estudiantes', icon: 'groups', link: '/estudiantes', can: ['Docente', 'Administrador']},
   {title: 'Docentes', icon: 'person', link: '/docentes', can: ['Docente', 'Administrador']},
-  {title: 'Asistencia', icon: 'check_circle', link: '/asistencia', can: ['Docente', 'Administrador']},
   {title: 'Asignaciones', icon: 'assignment', link: '/asignaciones', can: ['Docente', 'Administrador']},
+  {title: 'Asistencia', icon: 'check_circle', link: '/asistencia', can: ['Docente', 'Administrador']},
 ]
 
 const leftDrawerOpen = ref(false)

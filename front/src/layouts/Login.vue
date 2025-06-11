@@ -49,7 +49,7 @@
                       </q-carousel>
                     </div>
                   </div>
-                  <div :class="'col-12 col-md-6 q-pa-md bg-white'">
+                  <div :class="'col-12 col-md-6 q-pa-md bg-white flex flex-center'">
                     <q-form @submit.prevent="loginSubmit">
                     <div class="row q-ma-md">
                       <div class="col-12">

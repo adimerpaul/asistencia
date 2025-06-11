@@ -27,6 +27,10 @@
                 <q-item-section avatar><q-icon name="edit" /></q-item-section>
                 <q-item-section>Editar</q-item-section>
               </q-item>
+              <q-item clickable @click="abrirAsignacionEstudiantes(props.row)" v-close-popup>
+                <q-item-section avatar><q-icon name="group_add" /></q-item-section>
+                <q-item-section>Agregar Estudiantes</q-item-section>
+              </q-item>
               <q-item clickable @click="eliminarAsignacion(props.row.id)" v-close-popup>
                 <q-item-section avatar><q-icon name="delete" /></q-item-section>
                 <q-item-section>Eliminar</q-item-section>
@@ -69,6 +73,25 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="dialogEstudiantes" persistent>
+      <q-card style="width: 500px">
+        <q-card-section class="row items-center">
+          <div class="text-bold">Estudiantes de {{ asignacion.curso?.nombre }}</div>
+          <q-space/>
+          <q-btn icon="close" flat class="q-ml-auto" v-close-popup />
+        </q-card-section>
+        <q-card-section>
+          <q-list>
+            <q-item v-for="estudiante in estudiantesSeleccionados" :key="estudiante.id">
+              <q-item-section>{{ estudiante.nombre }}</q-item-section>
+            </q-item>
+          </q-list>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat label="Cerrar" color="negative" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -97,21 +120,28 @@ export default {
         { name: 'gestion', label: 'Gestión', field: 'gestion', align: 'left' },
         { name: 'user_id', label: 'Usuario', field: row => row.user?.name, align: 'left' }
       ],
-      gestiones: []
+      gestiones: [],
+      estudiantes: [],
+      estudiantesSeleccionados: [],
+      dialogEstudiantes: false,
     }
   },
   mounted() {
     this.obtenerAsignaciones();
-    // this.$axios.get('users').then(res => this.usuarios = res.data)
     this.$axios.get('cursos').then(res => this.cursos = res.data)
     this.$axios.get('docentes').then(res => this.docentes = res.data)
-    // gestiones de 5 a;os ates y 5 despuest
+    this.$axios.get('estudiantes').then(res => this.estudiantes = res.data)
     const currentYear = new Date().getFullYear();
     for (let i = currentYear - 3; i <= currentYear + 3; i++) {
       this.gestiones.push({ label: i.toString(), value: i })
     }
   },
   methods: {
+    abrirAsignacionEstudiantes(asignacion) {
+      this.estudiantesSeleccionados = asignacion.estudiantes || [];
+      this.dialogEstudiantes = true;
+      this.asignacion = asignacion;
+    },
     obtenerAsignaciones() {
       this.loading = true
       this.$axios.get('asignaciones').then(res => {
