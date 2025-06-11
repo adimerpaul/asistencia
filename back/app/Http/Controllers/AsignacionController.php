@@ -48,6 +48,17 @@ class AsignacionController extends Controller
         $asignacion->update($validated);
         return response()->json($asignacion);
     }
+    public function show($id,Request $request) {
+        $user = $request->user();
+        $docente = $user->docente_id;
+        $asignacion = Asignacion::with(['curso', 'estudiantes'])->where('id', $id)
+            ->where('docente_id', $docente)
+            ->firstOrFail();
+        if (!$asignacion) {
+            return response()->json(['message' => 'Asignación no encontrada'], 404);
+        }
+        return response()->json($asignacion);
+    }
 
     public function destroy(Asignacion $asignacion) {
         $asignacion->delete();

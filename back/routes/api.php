@@ -38,6 +38,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/asignaciones', [App\Http\Controllers\AsignacionController::class, 'index']);
     Route::post('/asignaciones', [App\Http\Controllers\AsignacionController::class, 'store']);
     Route::put('/asignaciones/{asignacion}', [App\Http\Controllers\AsignacionController::class, 'update']);
+    Route::get('/asignaciones/{id}', [App\Http\Controllers\AsignacionController::class, 'show']);
 //    Route::delete('/asignaciones/{asignacion}', [App\Http\Controllers\AsignacionController::class, 'destroy']);
 //    Route::delete('/asignacion-estudiantes/{asignacion}/{estudiante}', [AsignacionEstudianteController::class, 'destroy']);
     Route::delete('/asignacion-estudiantes-by-id/{id}', [App\Http\Controllers\AsignacionEstudianteController::class, 'destroyById']);
