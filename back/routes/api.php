@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsignacionEstudianteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/asignaciones', [App\Http\Controllers\AsignacionController::class, 'index']);
     Route::post('/asignaciones', [App\Http\Controllers\AsignacionController::class, 'store']);
     Route::put('/asignaciones/{asignacion}', [App\Http\Controllers\AsignacionController::class, 'update']);
-    Route::delete('/asignaciones/{asignacion}', [App\Http\Controllers\AsignacionController::class, 'destroy']);
+//    Route::delete('/asignaciones/{asignacion}', [App\Http\Controllers\AsignacionController::class, 'destroy']);
+//    Route::delete('/asignacion-estudiantes/{asignacion}/{estudiante}', [AsignacionEstudianteController::class, 'destroy']);
+    Route::delete('/asignacion-estudiantes-by-id/{id}', [App\Http\Controllers\AsignacionEstudianteController::class, 'destroyById']);
+
 
     Route::get('/asignacion-estudiantes', [App\Http\Controllers\AsignacionEstudianteController::class, 'index']);
     Route::post('/asignacion-estudiantes', [App\Http\Controllers\AsignacionEstudianteController::class, 'store']);

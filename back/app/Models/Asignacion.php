@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Asignacion extends Model
@@ -32,5 +33,12 @@ class Asignacion extends Model
     }
     public function docente() {
         return $this->belongsTo(Docente::class);
+    }
+    public function estudiantes(): BelongsToMany
+    {
+        return $this->belongsToMany(Estudiante::class, 'asignacion_estudiantes')
+            ->withPivot('id', 'deleted_at')
+            ->withTimestamps()
+            ->wherePivotNull('deleted_at'); // ✅ filtrar solo relaciones activas
     }
 }

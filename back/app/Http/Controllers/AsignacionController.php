@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AsignacionController extends Controller
 {
     public function index() {
-        return Asignacion::with(['user','docente','curso'])->orderBy('id', 'desc')->get();
+        return Asignacion::with(['user','docente','curso','estudiantes'])->orderBy('id', 'desc')->get();
     }
 
     public function store(Request $request) {

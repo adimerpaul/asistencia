@@ -9,7 +9,7 @@ class EstudianteController extends Controller
 {
     public function index()
     {
-        return Estudiante::orderBy('id', 'desc')->get();
+        return Estudiante::orderBy('nombre')->get();
     }
 
     public function store(Request $request)
