@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('docente_id')->nullable();
+            $table->foreign('docente_id')->references('id')->on('docentes')->onDelete('set null');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
