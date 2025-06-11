@@ -16,10 +16,14 @@ const routes = [
         component: () => import('pages/docentes/Docentes.vue'),
         meta: { requiresAuth: true }
       },
-      // asiganciones
       {
         path: '/asignaciones',
         component: () => import('pages/asignaciones/Asignaciones.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/mis-cursos',
+        component: () => import('pages/cursos/MisCursosPage.vue'),
         meta: { requiresAuth: true }
       }
     ]
