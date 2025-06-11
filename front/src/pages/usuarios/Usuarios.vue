@@ -5,6 +5,7 @@
       <template v-slot:top-right>
         <q-btn color="positive" label="Nuevo" @click="userNew" no-caps icon="add_circle_outline" :loading="loading"
                class="q-mr-sm"/>
+        <q-btn color="primary" label="Actualizar" @click="usersGet" no-caps icon="refresh" :loading="loading"/>
         <q-input v-model="filter" label="Buscar" dense outlined>
           <template v-slot:append>
             <q-icon name="search"/>
@@ -104,11 +105,14 @@
                      :rules="[val => !!val || 'Campo requerido']" v-if="!user.id"/>
             <q-select v-model="user.role" label="Rol" dense outlined :options="roles"
                       :rules="[val => !!val || 'Campo requerido']"/>
-            <!--            <q-select v-model="user.agencia" label="Agencia" dense outlined :options="$agencias" :rules="[val => !!val || 'Campo requerido']" />-->
+            <q-select v-model="user.docente_id" label="Docente" dense outlined :options="docentes"
+                      option-label="nombre" option-value="id" emit-value map-options
+                      :rules="[val => !!val || 'Campo requerido']"/>
             <!--            <q-input v-model="user.phone" label="Telefono" dense outlined hint="" />-->
             <!--            <q-input v-model="user.codigo" label="Codigo" dense outlined hint="" />-->
             <!--            <q-input v-model="user.gestion" label="Gestion" dense outlined hint="" />-->
             <!--            <q-input v-model="user.bloque" label="Bloque" dense outlined hint="" />-->
+<!--            <pre>{{user}}</pre>-->
             <div class="text-right">
               <q-btn color="negative" label="Cancelar" @click="userDialog = false" no-caps :loading="loading"/>
               <q-btn color="primary" label="Guardar" type="submit" no-caps :loading="loading" class="q-ml-sm"/>
@@ -195,14 +199,16 @@ export default {
         {name: 'username', label: 'Usuario', align: 'left', field: 'username'},
         {name: 'avatar', label: 'Avatar', align: 'left', field: (row) => row.avatar},
         {name: 'role', label: 'Rol', align: 'left', field: 'role'},
-        // { name: 'docente', label: 'Docente', align: 'left', field: (row) =>  row.docente?.username },
+        { name: 'docente', label: 'Docente', align: 'left', field: (row) =>  row.docente?.nombre },
       ],
       permissions: [],
       dialogPermisos: false,
       cambioAvatarDialogo: false,
+      docentes: [],
     }
   },
-  mounted() {
+  async mounted() {
+    this.docentes = await this.$axios.get('docentes').then(res => res.data)
     this.usersGet()
     // this.permissionsGet()
   },
