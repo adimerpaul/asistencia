@@ -25,7 +25,13 @@ const routes = [
         path: '/mis-cursos',
         component: () => import('pages/cursos/MisCursosPage.vue'),
         meta: { requiresAuth: true }
-      }
+      },
+      // CursoDetail
+      {
+        path: '/curso/:id',
+        component: () => import('pages/cursos/DetalleCursoPage.vue'),
+        meta: { requiresAuth: true }
+      },
     ]
   },
   {

@@ -23,7 +23,8 @@
       <q-card
         v-for="asignacion in cursos"
         :key="asignacion.id"
-        class="col-xs-12 col-sm-6 col-md-4 col-lg-3 bg-white shadow-2"
+        @click="verCurso(asignacion.id)"
+        class="cursor-pointer col-xs-12 col-sm-6 col-md-4 col-lg-3 bg-white shadow-2"
         flat
         bordered
       >
@@ -77,6 +78,9 @@ export default {
     this.obtenerMisCursos()
   },
   methods: {
+    verCurso(id) {
+      this.$router.push('/curso/' + id)
+    },
     obtenerMisCursos () {
       this.loading = true
       this.$axios.get('/misCursos')
