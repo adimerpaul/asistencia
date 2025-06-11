@@ -1,4 +1,3 @@
-// src/pages/AsignacionesPage.vue
 <template>
   <q-page class="q-pa-md">
     <q-table
@@ -13,7 +12,8 @@
       :filter="filter"
     >
       <template v-slot:top-right>
-        <q-btn label="Nueva" icon="add_circle_outline" color="primary" @click="nuevaAsignacion" :loading="loading" no-caps />
+        <q-btn label="Nueva" icon="add_circle_outline" color="primary" @click="nuevaAsignacion" :loading="loading" no-caps class="q-mr-md" />
+        <q-btn icon="refresh" color="secondary" @click="obtenerAsignaciones" :loading="loading" no-caps />
         <q-input v-model="filter" label="Buscar" dense outlined class="q-ml-sm">
           <template v-slot:append><q-icon name="search" /></template>
         </q-input>
@@ -40,6 +40,7 @@
         </q-td>
       </template>
     </q-table>
+<!--    <pre>{{asignaciones}}</pre>-->
 
     <q-dialog v-model="dialog" persistent>
       <q-card style="width: 500px">
@@ -73,7 +74,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="dialogEstudiantes" persistent>
+    <q-dialog v-model="dialogEstudiantes" persistent full-width full-height>
       <q-card style="width: 500px">
         <q-card-section class="row items-center">
           <div class="text-bold">Estudiantes de {{ asignacion.curso?.nombre }}</div>
@@ -81,11 +82,64 @@
           <q-btn icon="close" flat class="q-ml-auto" v-close-popup />
         </q-card-section>
         <q-card-section>
-          <q-list>
-            <q-item v-for="estudiante in estudiantesSeleccionados" :key="estudiante.id">
-              <q-item-section>{{ estudiante.nombre }}</q-item-section>
-            </q-item>
-          </q-list>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <q-input v-model="estudianteFilter" label="Buscar Estudiante" dense outlined class="q-mb-sm" @update:model-value="filtrarEstudiantes">
+                <template v-slot:append><q-icon name="search" /></template>
+              </q-input>
+              <q-markup-table bordered flat dense wrap-cells>
+                <thead>
+                <tr class="bg-primary text-white">
+                  <th class="text-left">#</th>
+                  <th class="text-left">Nombre</th>
+                  <th class="text-left">Agregar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(estudiante,i) in estudiantes" :key="estudiante.id">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ estudiante.nombre }}</td>
+                  <td>
+                    <q-btn
+                      icon="add_circle_outline"
+                      @click="agregarEstudiante(estudiante)"
+                      :loading="loading"
+                      color="primary" size="xs" dense label="Agregar" no-caps/>
+                  </td>
+                </tr>
+                </tbody>
+              </q-markup-table>
+            </div>
+            <div class="col-12 col-md-6">
+              <q-markup-table bordered flat dense wrap-cells>
+                <thead>
+                <tr class="bg-grey-3">
+                  <th class="text-left">#</th>
+                  <th class="text-left">Nombre</th>
+                  <th class="text-left">Quitar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(estudiante, i) in estudiantesSeleccionados" :key="estudiante.id">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ estudiante.nombre }}</td>
+                  <td>
+                    <q-btn
+                      icon="remove_circle_outline"
+                      color="negative"
+                      size="xs"
+                      dense
+                      @click="quitarEstudiante(estudiante.id)"
+                      label="Quitar"
+                      no-caps
+                      :loading="loading"
+                    />
+                  </td>
+                </tr>
+                </tbody>
+              </q-markup-table>
+            </div>
+          </div>
         </q-card-section>
         <q-card-actions align="right">
           <q-btn flat label="Cerrar" color="negative" v-close-popup />
@@ -122,21 +176,75 @@ export default {
       ],
       gestiones: [],
       estudiantes: [],
+      estudiantesAll: [],
+      estudianteFilter: '',
       estudiantesSeleccionados: [],
       dialogEstudiantes: false,
     }
   },
-  mounted() {
+  async mounted() {
     this.obtenerAsignaciones();
     this.$axios.get('cursos').then(res => this.cursos = res.data)
     this.$axios.get('docentes').then(res => this.docentes = res.data)
-    this.$axios.get('estudiantes').then(res => this.estudiantes = res.data)
+    await this.$axios.get('estudiantes').then(res => this.estudiantes = res.data)
+    this.estudiantesAll = [...this.estudiantes];
     const currentYear = new Date().getFullYear();
     for (let i = currentYear - 3; i <= currentYear + 3; i++) {
       this.gestiones.push({ label: i.toString(), value: i })
     }
   },
   methods: {
+    agregarEstudiante(estudiante) {
+      this.loading=true
+      this.$axios.post(`asignacion-estudiantes`, {
+        estudiante_id: estudiante.id,
+        asignacion_id: this.asignacion.id
+      })
+        .then(() => {
+          this.$alert.success('Estudiante agregado a la asignación')
+          this.estudiantesSeleccionados.push(estudiante)
+          this.filtrarEstudiantes()
+        })
+        .catch(err => {
+          this.$alert.error(err.response?.data?.message || 'Error al agregar estudiante')
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    filtrarEstudiantes() {
+      if (this.estudianteFilter === '') {
+        this.estudiantes = [...this.estudiantesAll];
+      } else {
+        this.estudiantes = this.estudiantesAll.filter(estudiante =>
+          estudiante.nombre.toLowerCase().includes(this.estudianteFilter.toLowerCase())
+        );
+      }
+    },
+    quitarEstudiante(estudiante_id) {
+      this.loading = true;
+
+      const relacion = this.asignacion.estudiantes?.find(e => e.id === estudiante_id || e.estudiante_id === estudiante_id);
+
+      if (!relacion) {
+        this.$alert.error('No se encontró el ID de la relación para eliminar');
+        this.loading = false;
+        return;
+      }
+
+      this.$axios.delete(`asignacion-estudiantes-by-id/${relacion.pivot?.id || relacion.id}`)
+        .then(() => {
+          this.$alert.success('Estudiante eliminado');
+          this.estudiantesSeleccionados = this.estudiantesSeleccionados.filter(e => e.id !== estudiante_id);
+          this.filtrarEstudiantes();
+        })
+        .catch(err => {
+          this.$alert.error(err.response?.data?.message || 'Error al quitar estudiante');
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     abrirAsignacionEstudiantes(asignacion) {
       this.estudiantesSeleccionados = asignacion.estudiantes || [];
       this.dialogEstudiantes = true;
