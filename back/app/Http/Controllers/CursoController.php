@@ -2,11 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacion;
 use App\Models\Curso;
 use Illuminate\Http\Request;
 
-class CursoController extends Controller
-{
+class CursoController extends Controller{
+    public function misCursos(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user->docente_id) {
+            return response()->json([], 200);
+        }
+
+        $asignaciones = Asignacion::with('curso')
+            ->where('docente_id', $user->docente_id)
+            ->get();
+
+        return response()->json($asignaciones);
+    }
     public function index()
     {
         return Curso::orderBy('id', 'desc')->get();
