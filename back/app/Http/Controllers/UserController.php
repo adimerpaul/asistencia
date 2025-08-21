@@ -75,7 +75,7 @@ class UserController extends Controller{
     function updatePassword(Request $request, $id){
         $user = User::find($id);
         $user->update([
-            'password' => bcrypt($request->password),
+            'password' => bcrypt($request->newPassword),
         ]);
         return $user;
     }
