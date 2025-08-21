@@ -50,4 +50,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/asignacion-estudiantes', [App\Http\Controllers\AsignacionEstudianteController::class, 'store']);
     Route::delete('/asignacion-estudiantes/{asignacionEstudiante}', [App\Http\Controllers\AsignacionEstudianteController::class, 'destroy']);
 
+
+    Route::post('/location', [App\Http\Controllers\LocationController::class, 'store']);
 });
