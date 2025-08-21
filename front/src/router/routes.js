@@ -22,6 +22,16 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
+        path: '/asignaciones/crear',
+        component: () => import('pages/asignaciones/AsignacionCreate.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
+        path: '/asignaciones/:id/editar',
+        component: () => import('pages/asignaciones/AsignacionEdit.vue'),
+        meta: { requiresAuth: true }
+      },
+      {
         path: '/mis-cursos',
         component: () => import('pages/cursos/MisCursosPage.vue'),
         meta: { requiresAuth: true }
