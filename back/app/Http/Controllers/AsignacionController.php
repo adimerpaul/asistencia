@@ -4,9 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Asignacion;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class AsignacionController extends Controller
 {
+    public function reporte(Asignacion $asignacion)
+    {
+        $asignacion->load([
+            'curso:id,nombre,descripcion,formacion,tipo',
+            'docente:id,nombre',
+            'estudiantes:id,nombre,ci'
+        ]);
+
+        $pdf = PDF::loadView('reportes.registro_evaluaciones', [
+            'asignacion' => $asignacion
+        ])->setPaper('a4', 'landscape');
+
+        $filename = 'registro_evaluaciones_'.$asignacion->id.'.pdf';
+        return $pdf->stream($filename); // o ->download($filename)
+    }
     public function index(Request $request)
     {
         // Parámetros
@@ -113,15 +129,17 @@ class AsignacionController extends Controller
         $asignaciones = Asignacion::with(['user','docente','curso','estudiantes'])->find($id);
         return response()->json($asignaciones);
     }
-    public function show($id,Request $request) {
-        $user = $request->user();
-        $docente = $user->docente_id;
-        $asignacion = Asignacion::with(['curso', 'estudiantes'])->where('id', $id)
-            ->where('docente_id', $docente)
-            ->firstOrFail();
-        if (!$asignacion) {
-            return response()->json(['message' => 'Asignación no encontrada'], 404);
+    public function show($id, Request $request)
+    {
+        $withEst = $request->boolean('with_estudiantes', false);
+
+        $query = Asignacion::with(['curso', 'docente']);   // <- siempre curso y docente
+        if ($withEst) {
+            $query->with(['estudiantes']);                 // <- sólo si se solicita
         }
+
+        $asignacion = $query->findOrFail($id);
+
         return response()->json($asignacion);
     }
 

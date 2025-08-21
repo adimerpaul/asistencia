@@ -296,11 +296,21 @@ export default {
         .finally(() => { this.loading = false })
     },
 
-    abrirAsignacionEstudiantes (asignacion) {
+    abrirAsignacionEstudiantes(asignacion) {
       this.asignacion = asignacion
-      // si quieres refrescar estudiantes actuales con pivot ids, puedes pedir with_estudiantes=true aquí
-      this.estudiantesSeleccionados = asignacion.estudiantes ? [...asignacion.estudiantes] : []
-      this.dialogEstudiantes = true
+      this.loading = true
+      // Traemos la asignación con estudiantes actualizados
+      this.$axios.get(`asignaciones/${asignacion.id}`, {
+        params: { with_estudiantes: true }
+      }).then(res => {
+        this.asignacion = res.data
+        this.estudiantesSeleccionados = [...res.data.estudiantes]
+        this.dialogEstudiantes = true
+      }).catch(err => {
+        this.$alert.error(err.response?.data?.message || 'Error al cargar estudiantes')
+      }).finally(() => {
+        this.loading = false
+      })
     },
 
     filtrarEstudiantes () {
@@ -310,36 +320,48 @@ export default {
         : this.estudiantesAll.filter(e => (e.nombre || '').toLowerCase().includes(q))
     },
 
-    agregarEstudiante (estudiante) {
+    agregarEstudiante(estudiante) {
       this.loading = true
       this.$axios.post('asignacion-estudiantes', {
         estudiante_id: estudiante.id,
         asignacion_id: this.asignacion.id
       })
         .then(() => {
-          this.$alert.success('Estudiante agregado a la asignación')
-          this.estudiantesSeleccionados.push(estudiante)
-          this.filtrarEstudiantes()
+          this.$alert.success('Estudiante agregado')
+          // recargar estudiantes de la asignación
+          return this.$axios.get(`asignaciones/${this.asignacion.id}`, {
+            params: { with_estudiantes: true }
+          })
         })
-        .catch(err => this.$alert.error(err.response?.data?.message || 'Error al agregar estudiante'))
+        .then(res => {
+          this.asignacion = res.data
+          this.estudiantesSeleccionados = [...res.data.estudiantes]
+        })
+        .catch(err => this.$alert.error(err.response?.data?.message || 'Error al agregar'))
         .finally(() => { this.loading = false })
     },
 
-    quitarEstudiante (estudiante_id) {
+    quitarEstudiante(estudiante_id) {
       this.loading = true
-      const relacion = this.asignacion.estudiantes?.find(e => e.id === estudiante_id || e.estudiante_id === estudiante_id)
+      const relacion = this.asignacion.estudiantes.find(e => e.id === estudiante_id)
       if (!relacion) {
-        this.$alert.error('No se encontró la relación para eliminar')
+        this.$alert.error('No se encontró la relación')
         this.loading = false
         return
       }
-      this.$axios.delete(`asignacion-estudiantes-by-id/${relacion.pivot?.id || relacion.id}`)
+
+      this.$axios.delete(`asignacion-estudiantes-by-id/${relacion.pivot.id}`)
         .then(() => {
-          this.$alert.success('Estudiante eliminado')
-          this.estudiantesSeleccionados = this.estudiantesSeleccionados.filter(e => e.id !== estudiante_id)
-          this.filtrarEstudiantes()
+          this.$alert.success('Estudiante quitado')
+          return this.$axios.get(`asignaciones/${this.asignacion.id}`, {
+            params: { with_estudiantes: true }
+          })
         })
-        .catch(err => this.$alert.error(err.response?.data?.message || 'Error al quitar estudiante'))
+        .then(res => {
+          this.asignacion = res.data
+          this.estudiantesSeleccionados = [...res.data.estudiantes]
+        })
+        .catch(err => this.$alert.error(err.response?.data?.message || 'Error al quitar'))
         .finally(() => { this.loading = false })
     },
 

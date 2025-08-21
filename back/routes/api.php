@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsignacionController;
 use App\Http\Controllers\AsignacionEstudianteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -53,3 +54,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/location', [App\Http\Controllers\LocationController::class, 'store']);
 });
+
+Route::get('asignaciones/{asignacion}/reporte', [AsignacionController::class, 'reporte']);

@@ -20,7 +20,7 @@
 
         <!-- Bloque: Académico -->
         <div class="text-subtitle2 text-grey-8">Datos académicos</div>
-        <div class="row q-col-gutter-md">
+        <div class="row">
           <div class="col-12 col-md-4">
             <q-input
               v-model="asignacion.anioFormacion"
@@ -61,7 +61,7 @@
 
         <!-- Bloque: Docencia y UE -->
         <div class="text-subtitle2 text-grey-8 q-mt-md">Docencia</div>
-        <div class="row q-col-gutter-md">
+        <div class="row ">
           <div class="col-12 col-md-6">
             <q-select
               v-model="asignacion.docente_id"
@@ -90,7 +90,7 @@
 
         <!-- Bloque: Detalle -->
         <div class="text-subtitle2 text-grey-8 q-mt-md">Detalle</div>
-        <div class="row q-col-gutter-md">
+        <div class="row ">
           <div class="col-12 col-md-4">
             <q-input v-model="asignacion.taller" label="Taller" dense outlined>
               <template #prepend><q-icon name="category" /></template>
