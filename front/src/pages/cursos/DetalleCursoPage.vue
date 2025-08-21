@@ -16,6 +16,11 @@
               <q-item-section avatar><q-icon name="how_to_reg" /></q-item-section>
               <q-item-section>Tomar asistencia</q-item-section>
             </q-item>
+<!--            ir a notas-->
+            <q-item clickable v-close-popup @click="$router.push(`/curso/${$route.params.id}/notas`)">
+              <q-item-section avatar><q-icon name="edit_note" /></q-item-section>
+              <q-item-section>Editar notas</q-item-section>
+            </q-item>
             <q-item clickable v-close-popup @click="scrollToNotas">
               <q-item-section avatar><q-icon name="grading" /></q-item-section>
               <q-item-section>Ir a notas</q-item-section>
