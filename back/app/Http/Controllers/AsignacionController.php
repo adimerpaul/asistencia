@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asignacion;
 use App\Models\Asistencia;
+use App\Models\Nota;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Carbon;
@@ -11,6 +12,59 @@ use Illuminate\Support\Facades\DB;
 
 class AsignacionController extends Controller
 {
+    public function reporteNotas(Asignacion $asignacion)
+    {
+        $asignacion->load(['curso:id,nombre,descripcion,formacion,tipo', 'docente:id,nombre', 'estudiantes:id,nombre,ci']);
+
+        // Traemos notas por estudiante_id
+        $notas = Nota::where('asignacion_id', $asignacion->id)->get()->keyBy('estudiante_id');
+
+        $pdf = PDF::loadView('reportes.notas', [
+            'asignacion' => $asignacion,
+            'notas'      => $notas
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream('reporte_notas_'.$asignacion->id.'.pdf');
+    }
+
+    public function reporteAsistencia(Request $request, Asignacion $asignacion)
+    {
+        $asignacion->load(['curso:id,nombre,descripcion,formacion,tipo', 'docente:id,nombre', 'estudiantes:id,nombre,ci']);
+
+        $desde = $request->filled('desde') ? Carbon::parse($request->get('desde'))->toDateString() : null;
+        $hasta = $request->filled('hasta') ? Carbon::parse($request->get('hasta'))->toDateString() : null;
+
+        // resumen por estudiante (presentes, tardes, ausentes, licencias, total, %)
+        $rows = Asistencia::select([
+            'estudiante_id',
+            DB::raw("SUM(CASE WHEN asistencia = 'Presente' THEN 1 ELSE 0 END) as presentes"),
+            DB::raw("SUM(CASE WHEN asistencia = 'Tarde' THEN 1 ELSE 0 END) as tardes"),
+            DB::raw("SUM(CASE WHEN asistencia = 'Ausente' THEN 1 ELSE 0 END) as ausentes"),
+            DB::raw("SUM(CASE WHEN asistencia = 'Licencia' THEN 1 ELSE 0 END) as licencias"),
+            DB::raw("COUNT(*) as total"),
+        ])
+            ->where('asignacion_id', $asignacion->id)
+            ->when($desde, fn($q) => $q->whereDate('fecha', '>=', $desde))
+            ->when($hasta, fn($q) => $q->whereDate('fecha', '<=', $hasta))
+            ->groupBy('estudiante_id')
+            ->get()
+            ->map(function ($r) {
+                $pres = (int)$r->presentes;
+                $tot  = (int)$r->total;
+                $r->porcentaje = $tot > 0 ? round($pres * 100 / $tot) : 0;
+                return $r;
+            })
+            ->keyBy('estudiante_id');
+
+        $pdf = PDF::loadView('reportes.asistencia', [
+            'asignacion' => $asignacion,
+            'resumen'    => $rows,
+            'desde'      => $desde,
+            'hasta'      => $hasta
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream('reporte_asistencia_'.$asignacion->id.'.pdf');
+    }
     public function reporte(Asignacion $asignacion)
     {
         $asignacion->load([

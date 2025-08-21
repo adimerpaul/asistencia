@@ -64,4 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/notas', [NotaController::class, 'store']);
 });
 
-Route::get('asignaciones/{asignacion}/reporte', [AsignacionController::class, 'reporte']);
+//Route::get('asignaciones/{asignacion}/reporte', [AsignacionController::class, 'reporte']);
+Route::get('asignaciones/{asignacion}/reporte-evaluaciones', [AsignacionController::class, 'reporte']);           // ya lo tenías
+Route::get('asignaciones/{asignacion}/reporte-notas',        [AsignacionController::class, 'reporteNotas']);
+Route::get('asignaciones/{asignacion}/reporte-asistencia',   [AsignacionController::class, 'reporteAsistencia']);
