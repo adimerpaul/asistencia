@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asignacion;
+use App\Models\Asistencia;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AsignacionController extends Controller
 {

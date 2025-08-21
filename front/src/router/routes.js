@@ -47,6 +47,11 @@ const routes = [
         path: '/curso/:id/asistencia',
         component: () => import('pages/cursos/AsistenciaPage.vue'),
         meta: { requiresAuth: true }
+      },
+      // nontas
+      {
+        path: '/curso/:id/notas',
+        component: () => import('pages/cursos/NotasPage.vue'),
       }
 
 ]

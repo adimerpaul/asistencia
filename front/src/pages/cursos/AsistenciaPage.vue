@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="col-auto q-gutter-sm">
-        <q-btn flat icon="arrow_back" label="Volver" no-caps @click="$router.back()" />
+        <q-btn flat icon="arrow_back" label="Volver" no-caps @click="$router.push('/curso/' + $route.params.id)" />
       </div>
     </div>
 

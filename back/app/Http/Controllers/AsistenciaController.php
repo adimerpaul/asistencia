@@ -11,6 +11,45 @@ use Illuminate\Validation\Rule;
 
 class AsistenciaController extends Controller
 {
+    public function resumen(Request $request)
+    {
+        $data = $request->validate([
+            'asignacion_id' => ['required','exists:asignaciones,id'],
+            'desde'         => ['nullable','date'],
+            'hasta'         => ['nullable','date'],
+        ]);
+
+        $desdeRaw = $data['desde'] ?? null;
+        $hastaRaw = $data['hasta'] ?? null;
+
+        $desde = $desdeRaw ? \Illuminate\Support\Carbon::parse($desdeRaw)->toDateString() : null;
+        $hasta = $hastaRaw ? \Illuminate\Support\Carbon::parse($hastaRaw)->toDateString() : null;
+
+        $rows = Asistencia::select([
+            'estudiante_id',
+            DB::raw("SUM(CASE WHEN asistencia = 'Presente' THEN 1 ELSE 0 END) as presentes"),
+            DB::raw("SUM(CASE WHEN asistencia = 'Tarde' THEN 1 ELSE 0 END) as tardes"),
+            DB::raw("SUM(CASE WHEN asistencia = 'Ausente' THEN 1 ELSE 0 END) as ausentes"),
+            DB::raw("SUM(CASE WHEN asistencia = 'Licencia' THEN 1 ELSE 0 END) as licencias"),
+            DB::raw("COUNT(*) as total"),
+        ])
+            ->where('asignacion_id', $data['asignacion_id'])
+            ->when($desde, fn($q) => $q->whereDate('fecha', '>=', $desde))
+            ->when($hasta, fn($q) => $q->whereDate('fecha', '<=', $hasta))
+            ->groupBy('estudiante_id')
+            ->get()
+            ->map(function ($r) {
+                $presentes = (int) $r->presentes;
+                $total     = (int) $r->total;
+                $r->porcentaje = $total > 0 ? round($presentes * 100 / $total) : 0;
+                return $r;
+            });
+
+        return response()->json([
+            'items' => $rows->keyBy('estudiante_id')
+        ]);
+    }
+
     // GET /asistencias?asignacion_id=..&fecha=YYYY-MM-DD
     public function index(Request $request)
     {
