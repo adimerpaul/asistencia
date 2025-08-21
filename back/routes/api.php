@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AsignacionController;
 use App\Http\Controllers\AsignacionEstudianteController;
+use App\Http\Controllers\AsistenciaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     Route::post('/location', [App\Http\Controllers\LocationController::class, 'store']);
+
+    Route::get('asistencias', [AsistenciaController::class, 'index']);
+    Route::post('asistencias', [AsistenciaController::class, 'store']); // single o batch
 });
 
 Route::get('asignaciones/{asignacion}/reporte', [AsignacionController::class, 'reporte']);

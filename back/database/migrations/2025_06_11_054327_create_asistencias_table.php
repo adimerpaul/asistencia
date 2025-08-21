@@ -18,8 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('estudiante_id');
             $table->foreign('asignacion_id')->references('id')->on('asignaciones');
             $table->foreign('estudiante_id')->references('id')->on('estudiantes');
-            $table->string('asistencia')->default('Presente'); // 'presente', 'ausente', 'tarde'
-            $table->dateTime('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('asistencia')->default('Asistencia'); // 'Asistencia', 'Atraso', 'Licenica', 'Falta'
+            $table->date('fecha')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->softDeletes();
             $table->timestamps();
         });

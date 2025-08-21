@@ -15,6 +15,9 @@ class Asistencia extends Model
         'asistencia',
         'fecha',
     ];
+    protected $casts = [
+        'fecha' => 'date:Y-m-d',
+    ];
 
     public function asignacion()
     {
